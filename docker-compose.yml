@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  app:
+    build:
+      args:
+        user: m2
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: m2
+    container_name: m2_app
+    restart: unless-stopped #REINICIAR SEMPRE, PARAR APENAS SE FOR INTERROMPIDO MANUALMENTE.
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - m2
+
+  nginx:
+    image: nginx:alpine
+    container_name: m2_nginx
+    restart: unless-stopped #REINICIAR SEMPRE, PARAR APENAS SE FOR INTERROMPIDO MANUALMENTE.
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - m2
+
+  db:
+    image: mysql:8.0.30
+    container_name: m2_db
+    restart: unless-stopped #REINICIAR SEMPRE, PARAR APENAS SE FOR INTERROMPIDO MANUALMENTE.
+    environment:
+      MYSQL_DATABASE: db_m2
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: pass_m2
+      MYSQL_USER: user_m2
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - m2
+
+networks:
+  m2:
+    driver: bridge #CRIA UMA REDE INTERNA PARA O DOCKER, ACESSO EXTERNO APENAS PARA AS PORTAS PERMITIDAS.
