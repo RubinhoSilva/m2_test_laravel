@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\PatternResponses\IPatternResponse;
+use App\Http\PatternResponses\PatternResponseJson;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            IPatternResponse::class,
+            PatternResponseJson::class,
+        );
     }
 
     /**
