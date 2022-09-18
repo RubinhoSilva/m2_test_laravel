@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\City;
 
 use App\Http\PatternResponses\IPatternResponse;
-use App\Http\Resources\City\CityCollectionOnlyIDNameResource;
-use App\Http\Resources\City\CityCollectionResource;
-use App\Http\Resources\City\CityResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GroupCitiesResource extends JsonResource
+class CityResource extends JsonResource
 {
     protected $patternResponse;
 
@@ -36,8 +33,7 @@ class GroupCitiesResource extends JsonResource
         return $this->patternResponse->responseSuccessful([
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
-            'cities' => new CityCollectionOnlyIDNameResource($this->whenLoaded('cities')),
+            'group_city' => $this->whenLoaded('groupCities')
         ]);
 
     }

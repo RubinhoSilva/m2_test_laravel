@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\GroupCities;
+namespace App\Http\Requests\City;
 
 use App\Http\PatternResponses\IPatternResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class CreateUpdateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
 
     protected $patternResponse;
@@ -38,7 +38,7 @@ class CreateUpdateRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required|max:255',
-            'cities' => 'array|exists:cities,id'
+            'group_cities_id' => 'exists:group_cities,id'
         ];
     }
 

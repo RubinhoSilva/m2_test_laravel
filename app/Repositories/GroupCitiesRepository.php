@@ -21,7 +21,7 @@ class GroupCitiesRepository implements Interfaces\GroupCitiesInterface
 
     public function getOne($id)
     {
-        return $this->groupCities->find($id);
+        return $this->groupCities->with('cities')->find($id);
     }
 
     public function update(object $groupCities, array $data)

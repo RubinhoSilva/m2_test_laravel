@@ -2,19 +2,29 @@
 
 namespace App\Http\Services;
 
+use App\Repositories\Interfaces\CityInterface;
 use App\Repositories\Interfaces\GroupCitiesInterface;
 use Exception;
 
 class GroupCitiesService {
 
-    protected $groupCities;
+    protected GroupCitiesInterface $groupCities;
+    protected CityInterface $city;
 
-    public function __construct(GroupCitiesInterface $groupCitiesRepository) {
+    public function __construct(GroupCitiesInterface $groupCitiesRepository, CityInterface $cityRepository) {
         $this->groupCities = $groupCitiesRepository;
+        $this->city = $cityRepository;
     }
 
     public function create(array $data) {
-        return $this->groupCities->create($data);
+        $groupCities = $this->groupCities->create($data);
+
+        foreach ($data['cities'] as $city_id) {
+            $city = $this->city->getOne($city_id);
+            $this->city->setGroupCity($city, $groupCities->id);
+        }
+
+        return $groupCities;
     }
 
     public function getAll() {
@@ -56,7 +66,8 @@ class GroupCitiesService {
     /**
      * @throws Exception
      */
-    public function delete($id) {
+    public function delete($id): array
+    {
         $groupCities = $this->groupCities->getOne($id);
 
         if (is_null($groupCities)){

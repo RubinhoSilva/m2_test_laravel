@@ -3,29 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\PatternResponses\IPatternResponse;
-use App\Http\Requests\GroupCities\CreateUpdateRequest;
+use App\Http\Requests\City\CreateRequest;
+use App\Http\Requests\City\UpdateRequest;
+use App\Http\Resources\City\CityCollectionResource;
+use App\Http\Resources\City\CityResource;
 use App\Http\Resources\ExceptionResource;
-use App\Http\Resources\GroupCitiesCollectionResource;
-use App\Http\Resources\GroupCitiesResource;
-use App\Http\Services\GroupCitiesService;
+use App\Http\Services\CityService;
 use Exception;
 
-class GroupCitiesController extends Controller
+class CityController extends Controller
 {
-    protected $groupCitiesService;
+    protected $cityService;
     protected $patternResponse;
 
-    public function __construct(GroupCitiesService $groupCitiesService, IPatternResponse $patternResponse)
+    public function __construct(CityService $cityService, IPatternResponse $patternResponse)
     {
-        $this->groupCitiesService = $groupCitiesService;
+        $this->cityService = $cityService;
         $this->patternResponse = $patternResponse;
     }
 
-    public function store(CreateUpdateRequest $request)
+    public function store(CreateRequest $request)
     {
         try {
-            $groupCities = $this->groupCitiesService->create($request->all());
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            $city = $this->cityService->create($request->all());
+            return new CityResource($city, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -36,8 +37,8 @@ class GroupCitiesController extends Controller
     public function index()
     {
         try {
-            $groupsCities = $this->groupCitiesService->getAll();
-            return new GroupCitiesCollectionResource($groupsCities, $this->patternResponse);
+            $cities = $this->cityService->getAll();
+            return new CityCollectionResource($cities, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -48,8 +49,8 @@ class GroupCitiesController extends Controller
     public function show($id)
     {
         try {
-            $groupCities = $this->groupCitiesService->getOne($id);
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            $groupCities = $this->cityService->getOne($id);
+            return new CityResource($groupCities, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -57,11 +58,11 @@ class GroupCitiesController extends Controller
         }
     }
 
-    public function update(CreateUpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         try {
-            $groupCities = $this->groupCitiesService->update($request->all(), $id);
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            $groupCities = $this->cityService->update($request->all(), $id);
+            return new CityResource($groupCities, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -72,13 +73,12 @@ class GroupCitiesController extends Controller
     public function delete($id)
     {
         try {
-            $groupCities = $this->groupCitiesService->delete($id);
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            $city = $this->cityService->delete($id);
+            return new CityResource($city, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
                 ->setStatusCode($e->getCode());
         }
     }
-
 }
