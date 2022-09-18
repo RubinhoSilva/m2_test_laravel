@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\GroupCitiesController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,12 @@ Route::prefix('cities')->group(function () {
     Route::get('/{id}', [CityController::class, 'show']);
     Route::put('/{id}', [CityController::class, 'update']);
     Route::delete('/{id}', [CityController::class, 'delete']);
+});
+
+Route::prefix('products')->group(function () {
+    Route::post('/', [ProductController::class, 'store']);
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
+    Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'delete']);
 });

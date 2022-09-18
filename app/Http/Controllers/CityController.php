@@ -10,11 +10,12 @@ use App\Http\Resources\City\CityResource;
 use App\Http\Resources\ExceptionResource;
 use App\Http\Services\CityService;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
-    protected $cityService;
-    protected $patternResponse;
+    protected CityService $cityService;
+    protected IPatternResponse $patternResponse;
 
     public function __construct(CityService $cityService, IPatternResponse $patternResponse)
     {
@@ -24,10 +25,18 @@ class CityController extends Controller
 
     public function store(CreateRequest $request)
     {
+        DB::beginTransaction();
+
         try {
             $city = $this->cityService->create($request->all());
+
+            DB::commit();
+
             return new CityResource($city, $this->patternResponse);
         } catch (Exception $e) {
+
+            DB::rollBack();
+
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
                 ->setStatusCode(500);
@@ -60,10 +69,17 @@ class CityController extends Controller
 
     public function update(UpdateRequest $request, $id)
     {
+        DB::beginTransaction();
+
         try {
             $groupCities = $this->cityService->update($request->all(), $id);
+
+            DB::commit();
+
             return new CityResource($groupCities, $this->patternResponse);
         } catch (Exception $e) {
+            DB::rollBack();
+
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
                 ->setStatusCode($e->getCode());
@@ -72,10 +88,17 @@ class CityController extends Controller
 
     public function delete($id)
     {
+        DB::beginTransaction();
+
         try {
             $city = $this->cityService->delete($id);
+
+            DB::commit();
+
             return new CityResource($city, $this->patternResponse);
         } catch (Exception $e) {
+            DB::rollBack();
+
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
                 ->setStatusCode($e->getCode());

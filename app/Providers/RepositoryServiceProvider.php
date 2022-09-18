@@ -6,6 +6,8 @@ use App\Repositories\CityRepository;
 use App\Repositories\GroupCitiesRepository;
 use App\Repositories\Interfaces\CityInterface;
 use App\Repositories\Interfaces\GroupCitiesInterface;
+use App\Repositories\Interfaces\ProductInterface;
+use App\Repositories\ProductRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -25,6 +27,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CityInterface::class,
             CityRepository::class,
+        );
+
+        $this->app->bind(
+            ProductInterface::class,
+            ProductRepository::class,
         );
     }
 

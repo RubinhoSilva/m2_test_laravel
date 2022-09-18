@@ -7,7 +7,7 @@ use App\Models\GroupCities;
 class GroupCitiesRepository implements Interfaces\GroupCitiesInterface
 {
 
-    protected $groupCities;
+    protected GroupCities $groupCities;
 
     public function __construct(GroupCities $groupCities)
     {

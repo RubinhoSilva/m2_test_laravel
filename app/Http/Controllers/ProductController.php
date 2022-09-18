@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\PatternResponses\IPatternResponse;
-use App\Http\Requests\GroupCities\CreateUpdateRequest;
+use App\Http\Requests\Product\CreateUpdateRequest;
 use App\Http\Resources\ExceptionResource;
-use App\Http\Resources\GroupCitiesCollectionResource;
-use App\Http\Resources\GroupCitiesResource;
-use App\Http\Services\GroupCitiesService;
+use App\Http\Resources\Product\ProductCollectionResource;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Services\ProductService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class GroupCitiesController extends Controller
+class ProductController extends Controller
 {
-    protected GroupCitiesService $groupCitiesService;
+    protected ProductService $productService;
     protected IPatternResponse $patternResponse;
 
-    public function __construct(GroupCitiesService $groupCitiesService, IPatternResponse $patternResponse)
+    public function __construct(ProductService $productService, IPatternResponse $patternResponse)
     {
-        $this->groupCitiesService = $groupCitiesService;
+        $this->productService = $productService;
         $this->patternResponse = $patternResponse;
     }
 
@@ -27,11 +27,11 @@ class GroupCitiesController extends Controller
         DB::beginTransaction();
 
         try {
-            $groupCities = $this->groupCitiesService->create($request->all());
+            $city = $this->productService->create($request->all());
 
             DB::commit();
 
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            return new ProductResource($city, $this->patternResponse);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -44,8 +44,8 @@ class GroupCitiesController extends Controller
     public function index()
     {
         try {
-            $groupsCities = $this->groupCitiesService->getAll();
-            return new GroupCitiesCollectionResource($groupsCities, $this->patternResponse);
+            $cities = $this->productService->getAll();
+            return new ProductCollectionResource($cities, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -56,8 +56,8 @@ class GroupCitiesController extends Controller
     public function show($id)
     {
         try {
-            $groupCities = $this->groupCitiesService->getOne($id);
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            $groupCities = $this->productService->getOne($id);
+            return new ProductResource($groupCities, $this->patternResponse);
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
@@ -70,11 +70,11 @@ class GroupCitiesController extends Controller
         DB::beginTransaction();
 
         try {
-            $groupCities = $this->groupCitiesService->update($request->all(), $id);
+            $groupCities = $this->productService->update($request->all(), $id);
 
             DB::commit();
 
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            return new ProductResource($groupCities, $this->patternResponse);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -89,11 +89,11 @@ class GroupCitiesController extends Controller
         DB::beginTransaction();
 
         try {
-            $groupCities = $this->groupCitiesService->delete($id);
+            $city = $this->productService->delete($id);
 
             DB::commit();
 
-            return new GroupCitiesResource($groupCities, $this->patternResponse);
+            return new ProductResource($city, $this->patternResponse);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -102,5 +102,4 @@ class GroupCitiesController extends Controller
                 ->setStatusCode($e->getCode());
         }
     }
-
 }

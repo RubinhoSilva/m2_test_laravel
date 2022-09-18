@@ -7,7 +7,7 @@ use App\Models\City;
 class CityRepository implements Interfaces\CityInterface
 {
 
-    protected $city;
+    protected City $city;
 
     public function __construct(City $city)
     {
