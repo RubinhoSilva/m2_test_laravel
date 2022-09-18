@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GroupCitiesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('group_cities')->group(function () {
+    Route::post('/', [GroupCitiesController::class, 'store']);
+    Route::get('/', [GroupCitiesController::class, 'index']);
+    Route::get('/{id}', [GroupCitiesController::class, 'show']);
+    Route::put('/{id}', [GroupCitiesController::class, 'update']);
+    Route::delete('/{id}', [GroupCitiesController::class, 'delete']);
 });

@@ -21,7 +21,7 @@ services:
     container_name: m2_nginx
     restart: unless-stopped #REINICIAR SEMPRE, PARAR APENAS SE FOR INTERROMPIDO MANUALMENTE.
     ports:
-      - 8000:80
+      - 8003:80
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
