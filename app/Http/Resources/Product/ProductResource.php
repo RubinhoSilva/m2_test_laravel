@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
 {
-    protected $patternResponse;
+    protected IPatternResponse $patternResponse;
 
     /**
      * @param IPatternResponse $patternResponse

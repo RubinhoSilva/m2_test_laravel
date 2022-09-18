@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Campaign;
 
 use App\Http\PatternResponses\IPatternResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ExceptionResource extends JsonResource
+class CampaignCollectionResource extends ResourceCollection
 {
     protected IPatternResponse $patternResponse;
 
@@ -26,6 +26,6 @@ class ExceptionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->patternResponse->responseExcept($this->resource);
+        return $this->patternResponse->responseSuccessful($this->collection);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CityResource extends JsonResource
 {
-    protected $patternResponse;
+    protected IPatternResponse $patternResponse;
 
     /**
      * @param IPatternResponse $patternResponse

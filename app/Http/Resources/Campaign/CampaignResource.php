@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Campaign;
 
 use App\Http\PatternResponses\IPatternResponse;
+use App\Http\Resources\City\CityCollectionOnlyIDNameResource;
+use App\Http\Resources\City\CityCollectionResource;
+use App\Http\Resources\City\CityResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExceptionResource extends JsonResource
+class CampaignResource extends JsonResource
 {
     protected IPatternResponse $patternResponse;
 
@@ -26,6 +29,19 @@ class ExceptionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->patternResponse->responseExcept($this->resource);
+        if ($request->isMethod('DELETE')){
+            return $this->patternResponse->responseSuccessful([]);
+        }
+
+        return $this->patternResponse->responseSuccessful([
+            'id' => $this->id,
+            'name' => $this->name,
+            'active' => $this->active,
+            'group_city' => $this->whenLoaded('groupCities')
+        ]);
+
     }
+
+
+
 }

@@ -4,13 +4,11 @@ namespace App\Http\Resources;
 
 use App\Http\PatternResponses\IPatternResponse;
 use App\Http\Resources\City\CityCollectionOnlyIDNameResource;
-use App\Http\Resources\City\CityCollectionResource;
-use App\Http\Resources\City\CityResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupCitiesResource extends JsonResource
 {
-    protected $patternResponse;
+    protected IPatternResponse $patternResponse;
 
     /**
      * @param IPatternResponse $patternResponse

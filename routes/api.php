@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\GroupCitiesController;
 use App\Http\Controllers\ProductController;
@@ -38,4 +39,12 @@ Route::prefix('products')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'delete']);
+});
+
+Route::prefix('campaigns')->group(function () {
+    Route::post('/', [CampaignController::class, 'store']);
+    Route::get('/', [CampaignController::class, 'index']);
+    Route::get('/{id}', [CampaignController::class, 'show']);
+    Route::put('/{id}', [CampaignController::class, 'update']);
+    Route::delete('/{id}', [CampaignController::class, 'delete']);
 });

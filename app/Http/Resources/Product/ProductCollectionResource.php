@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ProductCollectionResource extends ResourceCollection
 {
-    protected $patternResponse;
+    protected IPatternResponse $patternResponse;
 
     /**
      * @param IPatternResponse $patternResponse
