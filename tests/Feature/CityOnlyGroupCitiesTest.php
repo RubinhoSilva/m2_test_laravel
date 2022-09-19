@@ -48,11 +48,11 @@ class CityOnlyGroupCitiesTest extends TestCase
             ],
         );
         $responseGroupCities->assertStatus(201);
-        $groupCitiesID = $responseGroupCities->json('data')['id'];
+        $groupCitiesID1 = $responseGroupCities->json('data')['id'];
 
         $responseCity1 = $this->get(env('APP_URL', 'http://localhost:8003') . '/api/cities/' . $cities[0]);
         $responseCity1->assertStatus(200);
-        $responseCity1->assertJsonPath('data.group_city.id', $groupCitiesID);
+        $responseCity1->assertJsonPath('data.group_city.id', $groupCitiesID1);
 
         $responseGroupCities = $this->postJson(env('APP_URL', 'http://localhost:8003') . '/api/group_cities',
             [
@@ -62,10 +62,23 @@ class CityOnlyGroupCitiesTest extends TestCase
             ],
         );
         $responseGroupCities->assertStatus(201);
-        $groupCitiesID = $responseGroupCities->json('data')['id'];
+        $groupCitiesID2 = $responseGroupCities->json('data')['id'];
 
         $responseCity2 = $this->get(env('APP_URL', 'http://localhost:8003') . '/api/cities/' . $cities[0]);
         $responseCity2->assertStatus(200);
-        $responseCity2->assertJsonPath('data.group_city.id', $groupCitiesID);
+        $responseCity2->assertJsonPath('data.group_city.id', $groupCitiesID2);
+
+
+        //REMOVER TUDO QUE CRIEI
+        foreach ($cities as $city){
+            $response = $this->delete(env('APP_URL', 'http://localhost:8003') . '/api/cities/' . $city);
+            $response->assertStatus(200);
+        }
+
+        $response = $this->delete(env('APP_URL', 'http://localhost:8003') . '/api/group_cities/' . $groupCitiesID1);
+        $response->assertStatus(200);
+
+        $response = $this->delete(env('APP_URL', 'http://localhost:8003') . '/api/group_cities/' . $groupCitiesID2);
+        $response->assertStatus(200);
     }
 }
