@@ -19,7 +19,11 @@ return new class extends Migration
             $table->tinyInteger('active');
 
             $table->foreignId('group_cities_id')->nullable();
-            $table->foreign('group_cities_id')->references('id')->on('group_cities');
+            $table->foreign('group_cities_id')
+                ->references('id')
+                ->on('group_cities')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->timestamps();
             $table->softDeletes();

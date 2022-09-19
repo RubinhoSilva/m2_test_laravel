@@ -15,10 +15,18 @@ return new class extends Migration
     {
         Schema::create('campaign_product', function (Blueprint $table) {
             $table->foreignId('campaign_id')->nullable();
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->foreign('campaign_id')
+                ->references('id')
+                ->on('campaigns')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreignId('product_id')->nullable();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->decimal('discount');
         });
