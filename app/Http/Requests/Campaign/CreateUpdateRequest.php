@@ -38,7 +38,10 @@ class CreateUpdateRequest extends FormRequest
     public function rules() {
         return [
             'active' => 'required|boolean',
-            'group_cities_id' => 'required|exists:group_cities,id'
+            'group_cities_id' => 'required|exists:group_cities,id,deleted_at,NULL',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|distinct|exists:products,id,deleted_at,NULL',
+            'products.*.discount' => 'required|numeric|min:0|max:100',
         ];
     }
 

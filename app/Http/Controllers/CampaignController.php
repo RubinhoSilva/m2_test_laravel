@@ -10,7 +10,6 @@ use App\Http\Resources\City\CityResource;
 use App\Http\Resources\ExceptionResource;
 use App\Http\Services\CampaignService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
@@ -40,7 +39,7 @@ class CampaignController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode() == 400 ? $e->getCode() : 500); //VERIFICO SE O ERRO ESTA VINDO DA VALIDAÇÃO, SE FOR, O ERRO SERA COM CODIGO 400
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500); //VERIFICO SE O ERRO ESTA VINDO DA VALIDAÇÃO, SE FOR, O ERRO SERA COM CODIGO 400
         }
     }
 
@@ -52,7 +51,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode(500);
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -64,7 +63,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -83,7 +82,7 @@ class CampaignController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -102,7 +101,7 @@ class CampaignController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 }

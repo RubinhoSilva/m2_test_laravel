@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Campaign;
 
 use App\Http\PatternResponses\IPatternResponse;
+use App\Http\Resources\CampaignProduct\CampaignProductResource;
 use App\Http\Resources\City\CityCollectionOnlyIDNameResource;
 use App\Http\Resources\City\CityCollectionResource;
 use App\Http\Resources\City\CityResource;
@@ -37,7 +38,8 @@ class CampaignResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'active' => $this->active,
-            'group_city' => $this->whenLoaded('groupCities')
+            'group_city' => $this->whenLoaded('groupCities'),
+            'products' => new CampaignProductResource($this->whenLoaded('products'))
         ]);
 
     }

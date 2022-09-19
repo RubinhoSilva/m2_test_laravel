@@ -38,7 +38,7 @@ class CreateUpdateRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required|max:255',
-            'cities' => 'array|exists:cities,id'
+            'cities' => 'array|exists:cities,id,deleted_at,NULL'
         ];
     }
 

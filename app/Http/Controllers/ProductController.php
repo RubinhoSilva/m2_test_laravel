@@ -37,7 +37,7 @@ class ProductController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode(500);
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -49,7 +49,7 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode(500);
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -80,7 +80,7 @@ class ProductController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 
@@ -99,7 +99,7 @@ class ProductController extends Controller
 
             return (new ExceptionResource($e, $this->patternResponse))
                 ->response()
-                ->setStatusCode($e->getCode());
+                ->setStatusCode(is_int($e->getCode()) ? $e->getCode() : 500);
         }
     }
 }

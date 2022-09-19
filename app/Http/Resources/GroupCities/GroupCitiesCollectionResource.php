@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\GroupCities;
 
 use App\Http\PatternResponses\IPatternResponse;
-use App\Http\Resources\City\CityCollectionOnlyIDNameResource;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class GroupCitiesResource extends JsonResource
+class GroupCitiesCollectionResource extends ResourceCollection
 {
     protected IPatternResponse $patternResponse;
 
@@ -27,19 +26,6 @@ class GroupCitiesResource extends JsonResource
      */
     public function toArray($request)
     {
-        if ($request->isMethod('DELETE')){
-            return $this->patternResponse->responseSuccessful([]);
-        }
-
-        return $this->patternResponse->responseSuccessful([
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'cities' => new CityCollectionOnlyIDNameResource($this->whenLoaded('cities')),
-        ]);
-
+        return $this->patternResponse->responseSuccessful($this->collection);
     }
-
-
-
 }

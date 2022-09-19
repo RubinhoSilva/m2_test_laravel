@@ -38,7 +38,7 @@ class UpdateRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required|max:255',
-            'group_cities_id' => 'exists:group_cities,id'
+            'group_cities_id' => 'exists:group_cities,id,deleted_at,NULL'
         ];
     }
 

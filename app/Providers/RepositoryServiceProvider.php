@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\CampaignProductRepository;
 use App\Repositories\CampaignRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\GroupCitiesRepository;
 use App\Repositories\Interfaces\CampaignInterface;
+use App\Repositories\Interfaces\CampaignProductInterface;
 use App\Repositories\Interfaces\CityInterface;
 use App\Repositories\Interfaces\GroupCitiesInterface;
 use App\Repositories\Interfaces\ProductInterface;
@@ -39,6 +41,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CampaignInterface::class,
             CampaignRepository::class,
+        );
+
+        $this->app->bind(
+            CampaignProductInterface::class,
+            CampaignProductRepository::class,
         );
     }
 

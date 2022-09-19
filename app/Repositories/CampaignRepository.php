@@ -21,7 +21,7 @@ class CampaignRepository implements Interfaces\CampaignInterface
 
     public function getOne($id)
     {
-        return $this->campaign->with('groupCities')->find($id);
+        return $this->campaign->with('groupCities', 'products')->find($id);
     }
 
     public function update(object $campaign, array $data)

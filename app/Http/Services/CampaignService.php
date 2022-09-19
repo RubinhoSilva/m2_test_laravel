@@ -3,14 +3,17 @@
 namespace App\Http\Services;
 
 use App\Repositories\Interfaces\CampaignInterface;
+use App\Repositories\Interfaces\CampaignProductInterface;
 use Exception;
 
 class CampaignService {
 
     protected CampaignInterface $campaign;
+    protected CampaignProductInterface $campaignProduct;
 
-    public function __construct(CampaignInterface $campaign) {
+    public function __construct(CampaignInterface $campaign, CampaignProductInterface $campaignProduct) {
         $this->campaign = $campaign;
+        $this->campaignProduct = $campaignProduct;
     }
 
     /**
@@ -29,7 +32,14 @@ class CampaignService {
             }
         }
 
-        return $this->campaign->create($data);
+        $campaign = $this->campaign->create($data);
+
+        foreach ($data['products'] as $productJson){
+            $productJson['campaign_id'] = $campaign->id;
+            $this->campaignProduct->create($productJson);
+        }
+
+        return $campaign;
     }
 
     public function getAll() {
@@ -59,7 +69,7 @@ class CampaignService {
             throw new Exception("Campaign not found!", 404);
         }
 
-        if ($data['active']){
+        if ($data['active'] and $data['active'] != $campaign->active){
             //ESTOU TENTANDO ADICIONAR UMA CAMPANHA ATIVA.
             //VERIFICAR SE JÁ POSSUI ALGUMA PARA ESSE GRUPO DE CIDADES
 
@@ -75,6 +85,13 @@ class CampaignService {
 
         if (!$updated) {
             throw new Exception("Error when updating!", 400);
+        }
+
+        $campaign->products()->detach();
+
+        foreach ($data['products'] as $productJson){
+            $productJson['campaign_id'] = $campaign->id;
+            $this->campaignProduct->create($productJson);
         }
 
         return $this->campaign->getOne($id);
