@@ -56,6 +56,11 @@ class GroupCitiesService {
 
         $updated = $this->groupCities->update($groupCities, $data);
 
+        foreach ($data['cities'] as $city_id) {
+            $city = $this->city->getOne($city_id);
+            $this->city->setGroupCity($city, $groupCities->id);
+        }
+
         if (!$updated) {
             throw new Exception("Error when updating!", 400);
         }
